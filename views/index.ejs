@@ -86,7 +86,7 @@
     </div>
 
 	<!-- Angular Material requires Angular.js Libraries -->
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
@@ -411,7 +411,7 @@
 			<div class="panel-heading">
 				<h3>
 				  <span>
-					{{project.nombre}}
+					{{nombre}}
 				  </span>
 					
 				</h3>
@@ -424,10 +424,12 @@
 						
 							<div class="panel-heading">
 								Directorio
+								<button class="btn btn-primary" >+</button><input type="text" class="form-control" >	
+															
 							</div>
 							
 							<div class="panel-body minH">
-
+								
 							</div>
 						</div>
 					</div>
