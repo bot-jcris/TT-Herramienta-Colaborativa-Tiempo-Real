@@ -8,6 +8,9 @@
 	
 	
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	  <!-- Firepad -->
+  <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.3.0/firepad.css" />
+ 
 	
 	<style>
 		
@@ -98,6 +101,19 @@
   
   	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.2/ui-bootstrap-tpls.min.js"></script>
   
+
+   <!-- ACE and its JavaScript mode and theme files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/mode-javascript.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/theme-textmate.js"></script>
+			
+  <!-- Firebase -->
+  <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+			
+  <!--Firepad -->
+  <script src="https://cdn.firebase.com/libs/firepad/1.3.0/firepad.min.js"></script>
+
+			
   <!-- Custom Scripts -->
   <script src="/javascripts/realTimeApp.js"></script>
 
@@ -390,8 +406,8 @@
 </script>
 
 <script type="text/ng-template" id="/proyecto.html">
-	<div class="container">
-		<div class="panel panel-default">
+	<div class="container col-md-12">
+		<div class="panel panel-default ">
 			<div class="panel-heading">
 				<h3>
 				  <span>
@@ -402,45 +418,45 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-md-4">
+				
+					<div class="col-md-3">
 						<div class="panel panel-default">
+						
 							<div class="panel-heading">
-								Área de trabajo (carpetas)
+								Directorio
 							</div>
+							
 							<div class="panel-body minH">
 
 							</div>
 						</div>
 					</div>
 					
-					<div class="col-md-4">
-						<div class="row minH2">
+					<div class="col-md-7">
+						
 							<div class="panel panel-default">
-								<div class="panel-heading">
-									Área de edición
-								</div>
+								
 								<div class="panel-body minH2">
-
+									<div id="firepad-container"></div>
 								</div>
 							</div>
-						</div>
-						<div class="row minH3">
+						
 							<div class="panel panel-default">
-								<div class="panel-heading">
-									Área de ejecución
-								</div>
+								
 								<div class="panel-body minH3">
 
 								</div>
 							</div>
-						</div>
+						
 					</div>
 					
-					<div class="col-md-4">
-						<div class="panel panel-default">
+					<div class="col-md-2">
+						<div class="panel panel-default panel-success">
+						
 							<div class="panel-heading">
-								Área de colaboración
+								Colaboradores
 							</div>
+							
 							<div class="panel-body minH">
 							<form ng-submit="saveCollaborators()" class="">
 								<md-content class="md-padding autocomplete" layout="column">

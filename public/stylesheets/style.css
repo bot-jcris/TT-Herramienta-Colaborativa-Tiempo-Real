@@ -54,13 +54,13 @@ body {
 }
 
 .minH{
-	min-height:500px;
+	min-height:63vh;
 }
 .minH2{
-	min-height:288px;
+	min-height:50vh;
 }
 .minH3{
-	min-height:150px;
+	min-height:15vh;
 }
 
 .lneHgtTd{
@@ -99,4 +99,14 @@ a {
 .alert.alert-danger.row{
 	margin-left: 0 !important;
 	margin-right: 0 !important;
+}
+
+#firepad-container {
+  width: 700px;
+  height: 450px;
+  
+}
+
+a.powered-by-firepad {
+    display: none;
 }

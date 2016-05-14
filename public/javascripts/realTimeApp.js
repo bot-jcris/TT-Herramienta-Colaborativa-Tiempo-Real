@@ -229,6 +229,21 @@ function($scope, $stateParams, projects, $state, auth){
 	{ url: 'ico-file'},
 	{ url: 'ico-folder'}];
 	
+	
+	var ref = new Firebase('https://muchwakun.firebaseio.com/');
+
+	//// Create ACE
+	var editor = ace.edit("firepad-container");
+	editor.setTheme("ace/theme/textmate");
+	var session = editor.getSession();
+	session.setUseWrapMode(true);
+	session.setUseWorker(false);
+	session.setMode("ace/mode/javascript");
+	//// Create Firepad.
+	var firepad = Firepad.fromACE(ref, editor, {
+	defaultText: '// \nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
+	});
+	
 	$scope.users = projects.users;
 	for(i=0; i< projects.projects.length; i++){
 		if(projects.projects[i]._id == $stateParams.id ){
@@ -236,6 +251,7 @@ function($scope, $stateParams, projects, $state, auth){
 			break;
 		}
 	}
+	
 	$scope.projectF = projects.project;
 	$scope.user = projects.user;
 	if($scope.user)
