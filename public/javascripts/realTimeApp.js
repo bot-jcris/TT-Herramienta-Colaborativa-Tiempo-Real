@@ -155,6 +155,7 @@ app.controller('MainCtrl', [
 'auth',
 'projects',
 function($scope, $state, auth, projects){
+  $scope.currentId = auth.currentId;
   $scope.projects = projects.projects;
   debugger;
   if($state.current.name == "home")
@@ -201,6 +202,32 @@ function($scope, $state, auth, projects){
 	  });; 
 	};
 	
+	$scope.unasignProjectToUser = function(id, colaboradores){
+	  var proyectos = [];
+	  for(i=0;i<$scope.projects.length;i++){
+		  proyectos.push($scope.projects[i]._id);
+	  }
+	  
+	  projects.unasignProjectToUser(
+	  {
+		  idProyecto: id,
+		  colaboradores: colaboradores,
+		  idUsuario: auth.currentId(),
+		  proyectos: proyectos
+	  }).error(function(error){
+		$scope.error = error;
+		if(!$scope.error.message)
+			$scope.error =
+				new Object({message:"Ocurrió un error al salir del proyecto."});
+			
+		}).then(function(){
+		  
+		  $scope.error =
+				new Object({message:"Se salió del proyecto correctamente."});
+		  $state.go('proyectos');
+	  });; 
+	};
+	
 	$scope.viewUser = function(id){
 		projects.getUser(id).then(function(){
 		  
@@ -217,7 +244,13 @@ app.controller('ProjectsCtrl', [
 'projects',
 '$state',
 'auth',
+<<<<<<< HEAD
+function($scope, $stateParams, projects, $state, auth){
+	$scope.currentId = auth.currentId;
+	
+=======
 function(post, $scope, $stateParams, projects, $state, auth){
+>>>>>>> 474b371a17f6c75433dbe1d6a96d088b1a1bd9c1
 	$scope.iconos = [
 	{ url: 'ico-agenda'},
 	{ url: 'ico-blackboard'},
@@ -230,6 +263,7 @@ function(post, $scope, $stateParams, projects, $state, auth){
 	{ url: 'ico-file'},
 	{ url: 'ico-folder'}];
 	
+
 	//console.log(post);
 	/*post.$promise.then(function(data){
 		console.log("project ",data);
@@ -253,6 +287,7 @@ function(post, $scope, $stateParams, projects, $state, auth){
 	
 	$scope.users = projects.users;
 	
+
 	$scope.projectF = projects.project;
 	
 	$scope.user = projects.user;
@@ -643,6 +678,21 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 	  return $http.get('/projects/' + id).then(function(res){
 		  o.project = res.data;
 			return res.data;
+	  });
+	};
+	
+	o.unasignProjectToUser = function(project){
+	  return $http.post('/unasignProjectToUser', project).success(function(data){
+		console.log(data);
+		var id=project.idProyecto;
+		var index;
+			for(i=0; i<o.projects.length; i++){
+				if(o.projects[i]._id == id){
+					index = i;
+					break;
+				}
+			};
+			o.projects.splice(index, 1);
 	  });
 	};
   

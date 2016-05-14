@@ -13,6 +13,8 @@ router.get('/', function(req, res, next) {
 });
 
 
+
+
 router.post('/updateUserProjects', function(req, res, next){
   User.update(
 		{_id : new ObjectId(req.body._id)}, 
@@ -115,11 +117,20 @@ router.get('/allProjects', auth, function(req, res, next) {
 });
 
 router.get('/projects', auth, function(req, res, next) {
-  Project.find({ idUsuario: new ObjectId(req.payload._id) },
+  /*Project.find({ idUsuario: new ObjectId(req.payload._id) },
 	  function(err, projects){
 		if(err){ return next(err); }
 
 		res.json(projects);
+	  });*/
+	  
+	  var query = User.findById(req.payload._id).populate('proyectos');
+
+	  query.exec(function (err, user){
+		if (err) { return next(err); }
+		if (!user) { return next(new Error('No se encuentra el usuario.')); }
+
+		res.json(user.proyectos);
 	  });
 });
 

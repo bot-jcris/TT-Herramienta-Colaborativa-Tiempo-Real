@@ -3,6 +3,14 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+
+.contact-item.selected .md-list-item-text{
+	background-color: #E0E0E0;
+	padding-left: 10px;
+	-moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
 .contact-item.selected .ng-binding{
 	color: red;
 }
@@ -54,13 +62,13 @@ body {
 }
 
 .minH{
-	min-height:63vh;
+	min-height:500px;
 }
 .minH2{
-	min-height:50vh;
+	min-height:288px;
 }
 .minH3{
-	min-height:15vh;
+	min-height:150px;
 }
 
 .lneHgtTd{
@@ -108,4 +116,5 @@ a {
 
 a.powered-by-firepad {
     display: none;
+
 }
