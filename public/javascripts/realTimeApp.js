@@ -230,10 +230,12 @@ function(post, $scope, $stateParams, projects, $state, auth){
 	{ url: 'ico-file'},
 	{ url: 'ico-folder'}];
 	
-	console.log(post);
+	//console.log(post);
 	/*post.$promise.then(function(data){
 		console.log("project ",data);
 	});*/
+	
+	$scope.project = post;
 	
 	var ref = new Firebase('https://muchwakun.firebaseio.com/'+$stateParams.id);
 
@@ -246,12 +248,13 @@ function(post, $scope, $stateParams, projects, $state, auth){
 	session.setMode("ace/mode/javascript");
 	//// Create Firepad.
 	var firepad = Firepad.fromACE(ref, editor, {
-	defaultText: '// \nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
+		defaultText: '// \nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
 	});
 	
 	$scope.users = projects.users;
 	
 	$scope.projectF = projects.project;
+	
 	$scope.user = projects.user;
 	if($scope.user)
 		$scope.user.colaboradorIndependiente = $scope.user.nombreInstitucion == 'Colaborador Independiente';
