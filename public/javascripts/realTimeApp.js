@@ -238,14 +238,19 @@ function($scope, $state, auth, projects){
 }])
 
 app.controller('ProjectsCtrl', [
+'post',
 '$scope',
 '$stateParams',
 'projects',
 '$state',
 'auth',
+<<<<<<< HEAD
 function($scope, $stateParams, projects, $state, auth){
 	$scope.currentId = auth.currentId;
 	
+=======
+function(post, $scope, $stateParams, projects, $state, auth){
+>>>>>>> 474b371a17f6c75433dbe1d6a96d088b1a1bd9c1
 	$scope.iconos = [
 	{ url: 'ico-agenda'},
 	{ url: 'ico-blackboard'},
@@ -258,14 +263,33 @@ function($scope, $stateParams, projects, $state, auth){
 	{ url: 'ico-file'},
 	{ url: 'ico-folder'}];
 	
+
+	//console.log(post);
+	/*post.$promise.then(function(data){
+		console.log("project ",data);
+	});*/
+	
+	$scope.project = post;
+	
+	var ref = new Firebase('https://muchwakun.firebaseio.com/'+$stateParams.id);
+
+	//// Create ACE
+	var editor = ace.edit("firepad-container");
+	editor.setTheme("ace/theme/textmate");
+	var session = editor.getSession();
+	session.setUseWrapMode(true);
+	session.setUseWorker(false);
+	session.setMode("ace/mode/javascript");
+	//// Create Firepad.
+	var firepad = Firepad.fromACE(ref, editor, {
+		defaultText: '// \nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
+	});
+	
 	$scope.users = projects.users;
-	for(i=0; i< projects.projects.length; i++){
-		if(projects.projects[i]._id == $stateParams.id ){
-			$scope.project = projects.projects[i];
-			break;
-		}
-	}
+	
+
 	$scope.projectF = projects.project;
+	
 	$scope.user = projects.user;
 	if($scope.user)
 		$scope.user.colaboradorIndependiente = $scope.user.nombreInstitucion == 'Colaborador Independiente';
@@ -601,6 +625,7 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 
 	o.get = function(id) {
 	  return $http.get('/projects/' + id).then(function(res){
+		  	o.project = res.data;
 			return res.data;
 	  });
 	};

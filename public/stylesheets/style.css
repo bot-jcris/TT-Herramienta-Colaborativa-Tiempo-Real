@@ -108,3 +108,13 @@ a {
 	margin-left: 0 !important;
 	margin-right: 0 !important;
 }
+
+#firepad-container {
+  height: 50vh;
+  
+}
+
+a.powered-by-firepad {
+    display: none;
+
+}
