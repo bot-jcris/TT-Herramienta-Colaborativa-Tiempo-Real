@@ -211,12 +211,13 @@ function($scope, $state, auth, projects){
 }])
 
 app.controller('ProjectsCtrl', [
+'post',
 '$scope',
 '$stateParams',
 'projects',
 '$state',
 'auth',
-function($scope, $stateParams, projects, $state, auth){
+function(post, $scope, $stateParams, projects, $state, auth){
 	$scope.iconos = [
 	{ url: 'ico-agenda'},
 	{ url: 'ico-blackboard'},
@@ -229,8 +230,12 @@ function($scope, $stateParams, projects, $state, auth){
 	{ url: 'ico-file'},
 	{ url: 'ico-folder'}];
 	
+	console.log(post);
+	/*post.$promise.then(function(data){
+		console.log("project ",data);
+	});*/
 	
-	var ref = new Firebase('https://muchwakun.firebaseio.com/');
+	var ref = new Firebase('https://muchwakun.firebaseio.com/'+$stateParams.id);
 
 	//// Create ACE
 	var editor = ace.edit("firepad-container");
@@ -245,12 +250,6 @@ function($scope, $stateParams, projects, $state, auth){
 	});
 	
 	$scope.users = projects.users;
-	for(i=0; i< projects.projects.length; i++){
-		if(projects.projects[i]._id == $stateParams.id ){
-			$scope.project = projects.projects[i];
-			break;
-		}
-	}
 	
 	$scope.projectF = projects.project;
 	$scope.user = projects.user;
@@ -588,6 +587,7 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 
 	o.get = function(id) {
 	  return $http.get('/projects/' + id).then(function(res){
+		  	o.project = res.data;
 			return res.data;
 	  });
 	};
