@@ -8,9 +8,6 @@
 	
 	
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-	  <!-- Firepad -->
-  <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.3.0/firepad.css" />
- 
 	
 	<style>
 		
@@ -101,19 +98,6 @@
   
   	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.2/ui-bootstrap-tpls.min.js"></script>
   
-
-   <!-- ACE and its JavaScript mode and theme files -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/ace.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/mode-javascript.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.2/theme-textmate.js"></script>
-			
-  <!-- Firebase -->
-  <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
-			
-  <!--Firepad -->
-  <script src="https://cdn.firebase.com/libs/firepad/1.3.0/firepad.min.js"></script>
-
-			
   <!-- Custom Scripts -->
   <script src="/javascripts/realTimeApp.js"></script>
 
@@ -232,7 +216,7 @@
 			  <md-subheader class="md-no-sticky">Contacts</md-subheader>
 			  
 			  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
-				<a ng-href="/#/usuario/{{contact._id}}">
+				<a ng-href="/#/usuario/{{contact._id}}" target="_blank">
 				<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.username}}">
 				</a>
 				<div class="md-list-item-text compact">
@@ -242,7 +226,7 @@
 			  </md-list-item>
 			  
 			  <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in allContacts" ng-if="contacts.indexOf(contact) < 0">
-				<a ng-href="/#/usuario/{{contact._id}}">
+				<a ng-href="/#/usuario/{{contact._id}}" target="_blank">
 				<img ng-src="{{ contact.iconoAvatar }}" 
 					class="md-avatar" 
 					alt="{{contact.username}}">
@@ -381,12 +365,17 @@
 									ng-show="project._id">Abrir</md-button>
 									
 									<md-button class="md-primary" ng-href="#/agregar-proyectos/{{project._id}}"
-									ng-show="project._id">Editar</md-button>
+									ng-show="project._id && project.idUsuario == currentId()">Editar</md-button>
 									
 									<md-button class="md-warn" 
 									ng-click="deleteProject(project._id)"
-									ng-show="project._id">
+									ng-show="project._id && project.idUsuario == currentId()">
 									Eliminar</md-button>
+									
+									<md-button class="md-warn" 
+									ng-click="unasignProjectToUser(project._id,project.colaboradores)"
+									ng-show="project._id && project.idUsuario != currentId()">
+									Salir</md-button>
 									
 								  
 								</md-card-actions>
@@ -406,8 +395,8 @@
 </script>
 
 <script type="text/ng-template" id="/proyecto.html">
-	<div class="container col-md-12">
-		<div class="panel panel-default ">
+	<div class="container">
+		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3>
 				  <span>
@@ -418,56 +407,60 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-				
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<div class="panel panel-default">
-						
 							<div class="panel-heading">
-								Directorio
+								Área de trabajo (carpetas)
 							</div>
-							
 							<div class="panel-body minH">
 
 							</div>
 						</div>
 					</div>
 					
-					<div class="col-md-7">
-						
+					<div class="col-md-4">
+						<div class="row minH2">
 							<div class="panel panel-default">
-								
+								<div class="panel-heading">
+									Área de edición
+								</div>
 								<div class="panel-body minH2">
-									<div id="firepad-container"></div>
+
 								</div>
 							</div>
-						
+						</div>
+						<div class="row minH3">
 							<div class="panel panel-default">
-								
+								<div class="panel-heading">
+									Área de ejecución
+								</div>
 								<div class="panel-body minH3">
 
 								</div>
 							</div>
-						
+						</div>
 					</div>
 					
-					<div class="col-md-2">
-						<div class="panel panel-default panel-success">
-						
+					<div class="col-md-4">
+						<div class="panel panel-default">
 							<div class="panel-heading">
-								Colaboradores
+								Área de colaboración
 							</div>
-							
 							<div class="panel-body minH">
 							<form ng-submit="saveCollaborators()" class="">
 								<md-content class="md-padding autocomplete" layout="column">
-									<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="username" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Colaboradores">
+									<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="username" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Colaboradores"
+									ng-show="project.idUsuario == currentId()"
+									>
 									</md-contact-chips>
 
 									<md-list class="fixedRows" style="height:300px;">
 									  <md-subheader class="md-no-sticky">Contacts</md-subheader>
 									  
 									  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
+										<a ng-href="/#/usuario/{{contact._id}}" target="_blank">
 										<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.username}}">
+										</a>
 										<div class="md-list-item-text compact">
 										  <h3>{{contact.username}}</h3>
 										  <p>{{contact.correoElectronico}}</p>
@@ -487,7 +480,9 @@
 									</md-list>
 								</md-content>
 								
-								<md-button type="submit" class="md-raised md-primary">Guardar Colaboradores</md-button>
+								<md-button type="submit" class="md-raised md-primary"
+									ng-show="project.idUsuario == currentId()">
+									Guardar Colaboradores</md-button>
 								
 							</form>
 							
